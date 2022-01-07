@@ -1,8 +1,13 @@
 const express = require('express');
-const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
+// Spin up the express application
+const app = express();
 
+// Calling different middlewares that we will use
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // Adding the paths to the route files

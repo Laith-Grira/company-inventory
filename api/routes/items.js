@@ -17,9 +17,19 @@ router.get('/:itemId', (req, res, next) => {
 
 // POST request for creating an item
 router.post('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handeling POST requests'
-    })
+
+    // we will first get images as string
+    const item = {
+        name: req.body.name,
+        price: req.body.price,
+        count: req.body.count,
+        image: req.body.image
+    };
+
+    res.status(201).json({
+        message: 'Created an item using POST request',
+        createdItem: item
+    });
 });
 
 // PATCH request for modifiying and item
