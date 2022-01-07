@@ -1,0 +1,49 @@
+const express = require('express');
+const router = express.Router();
+
+// GET requestfor all items
+router.get('/', (req, res, next) => {
+    res.status(200).json({
+        message: 'Handeling GET requests for all items'
+    })
+});
+
+// GET request for one item
+router.get('/:itemId', (req, res, next) => {
+    res.status(200).json({
+        message: 'Handeling GET requests for one item'
+    })
+});
+
+// POST request for creating an item
+router.post('/', (req, res, next) => {
+
+    // we will first get images as string
+    const item = {
+        name: req.body.name,
+        price: req.body.price,
+        count: req.body.count,
+        image: req.body.image
+    };
+
+    res.status(201).json({
+        message: 'Created an item using POST request',
+        createdItem: item
+    });
+});
+
+// PATCH request for modifiying and item
+router.patch('/:itemId', (req, res, next) => {
+    res.status(200).json({
+        message: 'Handeling PATCH requests'
+    })
+});
+
+// DELETE request for deleting an item
+router.delete('/:itemId', (req, res, next) => {
+    res.status(200).json({
+        message: 'Handeling DELETE requests'
+    })
+});
+
+module.exports = router;
