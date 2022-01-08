@@ -20,3 +20,6 @@ const server = http.createServer(app);
 server
     .listen(port, () => console.log(`***** Server is connected to port ${port} *****`))
     .on( "error", () => console.log(`Server failed to start on port ${port}`));
+
+
+    module.exports = server;
