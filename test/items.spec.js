@@ -86,5 +86,29 @@ describe('Starting tests for /items endpoint', () => {
         });
     });
 
+    /******************************************************
+     ***************** POST requests **********************
+     ******************************************************
+     */
+     describe('Test POST for /items endpoint', () => {
+
+        it('Creating an item successfully', (done) => {
+            request(server)
+                .post('/items')
+                .send({ name: 'rice', price: 10.99, count: 27 })
+                .then((res) => {
+                    const body = res.body.createdItem;
+                    expect(body).to.contain.property('_id');
+                    expect(body).to.contain.property('name');
+                    expect(body).to.contain.property('price');
+                    expect(body).to.contain.property('count');
+                    expect(body.name).to.equal('rice');
+                    expect(body.price).to.equal(10.99);
+                    expect(body.count).to.equal(27);
+                    done();
+                })
+                .catch((err) => done(err));
+        });
+    });
     
 });
