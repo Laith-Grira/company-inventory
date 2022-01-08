@@ -8,7 +8,10 @@ const app = express();
 // Calling different middlewares that we will use
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV != 'test') {
+    // Do not display logs while testing
+    app.use(morgan('dev'));
+}
 
 // Adding the paths to the route files
 const itemRoutes = require('./api/routes/items');

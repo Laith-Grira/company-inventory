@@ -3,10 +3,12 @@ const port = process.env.PORT || 5000;
 const database = require('./database/db');
 
 
-// Connect to the database
-database.open()
-        .then(() => console.log(`***** MongoDB is connected *****`))
-        .catch(() => console.log('Unable to open database connection...'));
+// Connect to the database, skip this step while testing because db connection is handled differently
+if (process.env.NODE_ENV != 'test') {
+        database.open()
+                .then(() => console.log(`***** MongoDB is connected *****`))
+                .catch(() => console.log('Unable to open database connection...'));
+}
 
 // This will allow us to send requests to the application middleware, so we can receive a response
 const app = require('./app');
