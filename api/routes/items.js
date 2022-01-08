@@ -13,7 +13,7 @@ const Item = require('../models/item');
  */
 router.get('/', (req, res, next) => {
     Item.find()
-        .select('name price count image _id')
+        .select('name price count _id')
         .exec()
         .then(docs => {
             const response = {
@@ -23,7 +23,6 @@ router.get('/', (req, res, next) => {
                         name: doc.name,
                         price: doc.price,
                         count: doc.count,
-                        image: doc.image,
                         _id: doc._id,
                         request: {
                             type: 'GET',
@@ -51,7 +50,7 @@ router.get('/', (req, res, next) => {
 router.get('/:itemId', (req, res, next) => {
     const id = req.params.itemId;
     Item.findById(id)
-        .select('name price count image _id')
+        .select('name price count _id')
         .exec()
         .then(doc => {
             if (doc) {
@@ -74,13 +73,11 @@ router.get('/:itemId', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
 
-    // we will first get images as string
     const item = new Item({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        count: req.body.count,
-        image: req.body.image
+        count: req.body.count
     });
 
     item
