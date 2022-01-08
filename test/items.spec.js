@@ -143,5 +143,35 @@ describe('Starting tests for /items endpoint', () => {
                 .catch((err) => done(err));
         });
     });
+
+    /******************************************************
+     ***************** DELETE requests ********************
+     ******************************************************
+     */
+     describe('Test DELETE for /items endpoint', () => {
+
+        it('Delete an item by ID', (done) => {
+            request(server)
+                .post('/items')
+                .send({ name: 'apple', price: 4.55, count: 37 })
+                .then((res) => {
+                    const id = res.body.createdItem._id;
+                    request(server)
+                        .delete('/items/'+id)
+                        .then((res) => {
+                            const msg = res.body.message;
+                            expect(msg).to.equal('Item '+id+' is successfully deleted');
+                            request(server)
+                                .get('/items/'+id)
+                                .then((res) => {
+                                    const msg_2 = res.body.message;
+                                    expect(msg_2).to.equal('This id is not found in the database');
+                                    done();
+                                })
+                        })
+                })
+                .catch((err) => done(err));
+        });
+    });
     
 });
