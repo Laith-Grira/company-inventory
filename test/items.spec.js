@@ -42,7 +42,7 @@ describe('Starting tests for /items endpoint', () => {
         it('Get a created item', (done) => {
             request(server)
                 .post('/items')
-                .send({ name: 'juice', price: 12.59, count: 10 })
+                .send({ name: 'HDMI cable', price: 25, count: 10 })
                 .then((res) => {
                     request(server)
                         .get('/items')
@@ -60,14 +60,14 @@ describe('Starting tests for /items endpoint', () => {
         it('Get an item by ID', (done) => {
             request(server)
                 .post('/items')
-                .send({ name: 'cheese', price: 2.99, count: 50 })
+                .send({ name: 'Keyboard', price: 49.99, count: 50 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
                     request(server)
                         .get('/items/'+id)
                         .then((res) => {
                             const name = res.body.name;
-                            expect(name).to.equal('cheese');
+                            expect(name).to.equal('Keyboard');
                             done();
                         })
                 })
@@ -95,15 +95,15 @@ describe('Starting tests for /items endpoint', () => {
         it('Creating an item successfully', (done) => {
             request(server)
                 .post('/items')
-                .send({ name: 'rice', price: 10.99, count: 27 })
+                .send({ name: 'Mouse', price: 20.99, count: 27 })
                 .then((res) => {
                     const body = res.body.createdItem;
                     expect(body).to.contain.property('_id');
                     expect(body).to.contain.property('name');
                     expect(body).to.contain.property('price');
                     expect(body).to.contain.property('count');
-                    expect(body.name).to.equal('rice');
-                    expect(body.price).to.equal(10.99);
+                    expect(body.name).to.equal('Mouse');
+                    expect(body.price).to.equal(20.99);
                     expect(body.count).to.equal(27);
                     done();
                 })
@@ -120,7 +120,7 @@ describe('Starting tests for /items endpoint', () => {
         it('Changing name of an item', (done) => {
             request(server)
                 .post('/items')
-                .send({ name: 'red grapes', price: 7.20, count: 22 })
+                .send({ name: 'LAN cable', price: 7.20, count: 22 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
                     request(server)
@@ -128,13 +128,13 @@ describe('Starting tests for /items endpoint', () => {
                         .then((res) => {
                             request(server)
                                 .patch('/items/'+id)
-                                .send([ { "propName": "name", "value": "green grapes" } ])
+                                .send([ { "propName": "name", "value": "WLAN cable" } ])
                                 .then((res) => {
                                     request(server)
                                         .get('/items/'+id)
                                         .then((res) => {
                                             const newName = res.body.name;
-                                            expect(newName).to.equal("green grapes")
+                                            expect(newName).to.equal("WLAN cable")
                                             done();
                                         })
                                 })
@@ -153,7 +153,7 @@ describe('Starting tests for /items endpoint', () => {
         it('Delete an item by ID', (done) => {
             request(server)
                 .post('/items')
-                .send({ name: 'apple', price: 4.55, count: 37 })
+                .send({ name: 'Printer', price: 304.55, count: 37 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
                     request(server)
