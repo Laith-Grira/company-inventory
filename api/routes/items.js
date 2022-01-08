@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 
-// Importing the schema
-const Item = require('../models/item');
+
+// import the items controller
+const itemsController = require('../controllers/itemsController');
 
 
 /**
@@ -11,35 +11,7 @@ const Item = require('../models/item');
  * @desc Get all items from the inventory
  * @access Public
  */
-router.get('/', (req, res, next) => {
-    Item.find()
-        .select('name price count _id')
-        .exec()
-        .then(docs => {
-            const response = {
-                length: docs.length,
-                items: docs.map(doc => {
-                    return {
-                        name: doc.name,
-                        price: doc.price,
-                        count: doc.count,
-                        _id: doc._id,
-                        request: {
-                            type: 'GET',
-                            url: 'http://localhost:5000/items/' + doc._id
-                        }
-                    }
-                })
-            }
-            res.status(200).json(response);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+router.get('/', itemsController.items_GET_All);
 
 
 /**
@@ -47,23 +19,7 @@ router.get('/', (req, res, next) => {
  * @desc Get a single item
  * @access Public
  */
-router.get('/:itemId', (req, res, next) => {
-    const id = req.params.itemId;
-    Item.findById(id)
-        .select('name price count _id')
-        .exec()
-        .then(doc => {
-            if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.status(404).json({message: "This id is not found in the database"});
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({error: err});
-        });
-});
+router.get('/:itemId', itemsController.items_GET_One);
 
 
 /**
@@ -71,27 +27,7 @@ router.get('/:itemId', (req, res, next) => {
  * @desc Create a new item
  * @access Public
  */
-router.post('/', (req, res, next) => {
-
-    const item = new Item({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        price: req.body.price,
-        count: req.body.count
-    });
-
-    item
-        .save()
-        .then(res => {
-            const newItem = res;
-            //console.log(newItem);
-        })
-        .catch(err => console.log(err))
-    res.status(201).json({
-        message: 'Created an item using POST request',
-        createdItem: item
-    });
-});
+router.post('/', itemsController.items_POST);
 
 
 /**
@@ -99,30 +35,7 @@ router.post('/', (req, res, next) => {
  * @desc Update a value for an item
  * @access Public
  */
-router.patch('/:itemId', (req, res, next) => {
-    const id = req.params.itemId;
-    const updateOps = {};
-    for(const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-    Item.updateOne({_id: id}, {$set: updateOps})
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'Item '+ id +' is successfully updated',
-                request: {
-                    type: 'GET',
-                    url: 'http://localhost:5000/items/'+id
-                }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+router.patch('/:itemId', itemsController.items_PATCH);
 
 
 /**
@@ -130,25 +43,8 @@ router.patch('/:itemId', (req, res, next) => {
  * @desc Delete an item
  * @access Public
  */
-router.delete('/:itemId', (req, res, next) => {
-    const id = req.params.itemId;
-    Item.deleteOne({_id: id})
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'Item '+ id +' is successfully deleted',
-                request: {
-                    type: 'POST',
-                    url: 'http://localhost:5000/items'
-                }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+router.delete('/:itemId', itemsController.items_DELETE);
 
+
+// Exporting the router
 module.exports = router;
