@@ -110,5 +110,38 @@ describe('Starting tests for /items endpoint', () => {
                 .catch((err) => done(err));
         });
     });
+
+    /******************************************************
+     ***************** PATCH requests **********************
+     ******************************************************
+     */
+     describe('Test PATCH for /items endpoint', () => {
+
+        it('Changing name of an item', (done) => {
+            request(server)
+                .post('/items')
+                .send({ name: 'red grapes', price: 7.20, count: 22 })
+                .then((res) => {
+                    const id = res.body.createdItem._id;
+                    request(server)
+                        .get('/items')
+                        .then((res) => {
+                            request(server)
+                                .patch('/items/'+id)
+                                .send([ { "propName": "name", "value": "green grapes" } ])
+                                .then((res) => {
+                                    request(server)
+                                        .get('/items/'+id)
+                                        .then((res) => {
+                                            const newName = res.body.name;
+                                            expect(newName).to.equal("green grapes")
+                                            done();
+                                        })
+                                })
+                        })
+                })
+                .catch((err) => done(err));
+        });
+    });
     
 });
