@@ -83,7 +83,8 @@ router.post('/', (req, res, next) => {
     item
         .save()
         .then(res => {
-            console.log(res);
+            const newItem = res;
+            //console.log(newItem);
         })
         .catch(err => console.log(err))
     res.status(201).json({
