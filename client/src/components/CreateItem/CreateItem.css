@@ -1,0 +1,26 @@
+.create-main {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group {
+    margin: 10px;
+}
+
+.form-group > input {
+    width: 300px;
+}
+
+#cancel-button {
+    margin-left: 50px;
+}
