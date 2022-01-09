@@ -1,6 +1,7 @@
 import HomePage from './components/HomePage/HomePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreateItem from './components/CreateItem/CreateItem';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
