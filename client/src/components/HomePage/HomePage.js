@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import './HomePage.css';
 
@@ -18,6 +19,7 @@ const HomePage = () => {
     
     return ( 
         <div>
+            <h1>Welcome to the Shopify Inventory</h1>
             <table>
                 <thead>
                     <tr>
@@ -42,6 +44,13 @@ const HomePage = () => {
                     }
                 </tbody>
             </table>
+            <div className="create-item">
+                <label>Create a new Item</label>
+                <Link
+                    to="/create">
+                    <button>New</button>
+                </Link>
+            </div>
         </div>
      );
 }
