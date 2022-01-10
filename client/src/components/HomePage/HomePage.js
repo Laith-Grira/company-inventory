@@ -16,9 +16,12 @@ const HomePage = () => {
             .catch(err => console.error(err));
     }, []);
 
-    const handleItemDelete = async (id) => {
-        await axios.delete('/items/'+id).then(res => console.log(res));
-        window.location.reload();
+    // Helper function for the delete request
+    const handleItemDelete = async (id, name) => {
+        if (confirm("Are you sure to delete the item " + name + " ?") == true) {
+            await axios.delete('/items/'+id).then(res => console.log(res));
+            window.location.reload();
+        }
     }
 
     
@@ -50,7 +53,7 @@ const HomePage = () => {
                                 <td>{data.price}</td>
                                 <td>{data.count}</td>
                                 <td><Link className="btn btn-secondary" to={"/edit"} state={{item: data}} >Edit</Link></td>
-                                <td><button className="btn btn-danger" onClick={() => handleItemDelete(data._id)}>Delete</button></td>
+                                <td><button className="btn btn-danger" onClick={() => handleItemDelete(data._id, data.name)}>Delete</button></td>
                             </tr>
                         ))
                     }
