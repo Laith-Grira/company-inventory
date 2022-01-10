@@ -11,27 +11,18 @@ const CreateItem = () => {
     const [priceValue, setPriceValue] = useState(0);
     const [countValue, setCountValue] = useState(0);
 
-    const handleNameChange = (e) => {
-        setNameValue(e.target.value);
-    }
-
-    const handlePriceChange = (e) => {
-        setPriceValue(e.target.value);
-    } 
-
-    const handleCountChange = (e) => {
-        setCountValue(e.target.value);
-    } 
-
+    // Helper function for the POST request
     const handlePost = async () => {
         if ((nameValue === '') || (priceValue <= 0) || (countValue <= 0)) {
             return;
         }
+
         const item = {
             name: nameValue,
             price: priceValue,
             count: countValue
         }
+        
         await axios.post('/items', item)
                     .then(alert('Item was created successfully! \n You can create a new Item or you can "Go Back"'))
                     .catch(err => console.log(err));
@@ -47,15 +38,15 @@ const CreateItem = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="item-name">Item Name</label>
-                    <input type="text" className="form-control" name="name" id="item-name" placeholder="Item" onChange={handleNameChange} required/>
+                    <input type="text" className="form-control" name="name" id="item-name" placeholder="Item" onChange={(e) => setNameValue(e.target.value)} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="item-price">Price</label>
-                    <input type="number" className="form-control" name="price" id="item-price" placeholder="Price" min={0.01} step={0.01} required onChange={handlePriceChange}/>
+                    <input type="number" className="form-control" name="price" id="item-price" placeholder="Price" min={0.01} step={0.01} required onChange={(e) => setPriceValue(e.target.value)}/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="item-count">Count</label>
-                    <input type="number" className="form-control" name="count" id="item-count" placeholder="Count" min={0} required onChange={handleCountChange}/>
+                    <input type="number" className="form-control" name="count" id="item-count" placeholder="Count" min={0} required onChange={(e) => setCountValue(e.target.value)}/>
                 </div>
                 <div className="form-group" >
                     <button type="submit" className="btn btn-primary" onClick={handlePost}>Submit</button>
