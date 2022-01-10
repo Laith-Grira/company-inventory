@@ -49,7 +49,7 @@ const HomePage = () => {
                                 <td >{data.name}</td>
                                 <td>{data.price}</td>
                                 <td>{data.count}</td>
-                                <td><button className="btn btn-secondary">Edit</button></td>
+                                <td><Link className="btn btn-secondary" to={"/edit"} state={{item: data}} >Edit</Link></td>
                                 <td><button className="btn btn-danger" onClick={() => handleItemDelete(data._id)}>Delete</button></td>
                             </tr>
                         ))
