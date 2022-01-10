@@ -16,6 +16,11 @@ const HomePage = () => {
             .catch(err => console.error(err));
     }, []);
 
+    const handleItemDelete = async (id) => {
+        await axios.delete('/items/'+id).then(res => console.log(res));
+        window.location.reload();
+    }
+
     
     return ( 
         <div className='main-home'>
@@ -45,7 +50,7 @@ const HomePage = () => {
                                 <td>{data.price}</td>
                                 <td>{data.count}</td>
                                 <td><button className="btn btn-secondary">Edit</button></td>
-                                <td><button className="btn btn-danger">Delete</button></td>
+                                <td><button className="btn btn-danger" onClick={() => handleItemDelete(data._id)}>Delete</button></td>
                             </tr>
                         ))
                     }
