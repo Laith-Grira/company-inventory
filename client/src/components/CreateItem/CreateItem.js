@@ -24,7 +24,7 @@ const CreateItem = () => {
     } 
 
     const handlePost = async () => {
-        if ((nameValue === '') || (priceValue == 0) || (countValue == 0)) {
+        if ((nameValue === '') || (priceValue <= 0) || (countValue <= 0)) {
             return;
         }
         const item = {
