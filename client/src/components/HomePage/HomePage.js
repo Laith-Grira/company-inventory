@@ -18,39 +18,39 @@ const HomePage = () => {
 
     
     return ( 
-        <div>
-            <h1>Welcome to the Shopify Inventory</h1>
-            <table>
-                <thead>
+        <div className='main-home'>
+            <h1 className='mb-5'>Welcome to the Shopify Inventory</h1>
+            <div className="create-item mb-5">
+                <p>Welcome to the Shopify tech inventory. The table bellow contains all the equipments names, price, and 
+                    count (how much available in the inventory). You can check all equipments, edit them or delete them.
+                    You can also use the "New" button to create a new item.</p>
+                <label><b>Create a new Item: </b></label>
+                <Link to="/create" className="btn btn-info" style={{ 'marginLeft': '20px'}}>NEW</Link>
+            </div>
+            <table className="table table-hover" >
+                <thead className="thead-dark table-dark">
                     <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Count</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Count</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         itemsArray.map((data, key) => (
                             <tr key={key}>
-                                <td>{data.name}</td>
+                                <td >{data.name}</td>
                                 <td>{data.price}</td>
                                 <td>{data.count}</td>
-                                <td><button>Edit</button></td>
-                                <td><button>Delete</button></td>
+                                <td><button className="btn btn-secondary">Edit</button></td>
+                                <td><button className="btn btn-danger">Delete</button></td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
-            <div className="create-item">
-                <label>Create a new Item</label>
-                <Link
-                    to="/create">
-                    <button>New</button>
-                </Link>
-            </div>
         </div>
      );
 }
