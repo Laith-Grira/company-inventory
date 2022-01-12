@@ -1,7 +1,3 @@
-// Setting environment variables for testing
-process.env.NODE_ENV = 'test';
-process.env.PORT = 5001;
-
 const expect = require('chai').expect;
 const request = require ('supertest');
 const server = require('../server');
