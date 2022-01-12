@@ -60,7 +60,7 @@ const HomePage = () => {
                         itemsArray
                             .filter(val => {
                                 if (searchItemName == "") return val;
-                                else if (val.name.toLowerCase().includes(searchItemName.toLowerCase())) return val;
+                                else if (val.name.toLowerCase().includes(searchItemName.toLowerCase().trim())) return val;
                             })
                             .map((data, key) => (
                             <tr key={key}>
