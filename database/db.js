@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const Mockgoose = require('mockgoose').Mockgoose;
 
-// This URI should be in a .env file
-const DB_URI = 'mongodb+srv://shopify-admin:Admin123@cluster-shopify-invento.f4jdn.mongodb.net/Inventory?retryWrites=true&w=majority';
+// The URI to establish connection to the cluster
+const DB_URI = 'mongodb+srv://'
+                + process.env.DB_USERNAME +':'
+                + process.env.DB_PASSWORD 
+                + '@cluster-shopify-invento.f4jdn.mongodb.net/Inventory?retryWrites=true&w=majority';
 
 // This function is used to open the connection from the database
 // If testing is occuring, connect to a mock database
