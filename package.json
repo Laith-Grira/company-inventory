@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha --recursive --exit --timeout 10000"
+    "test": "mocha --recursive --exit --timeout 10000",
+    "client": "(cd client) && (npm start)",
+    "app": "concurrently \"npm start\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   "dependencies": {
     "body-parser": "^1.19.1",
     "chai": "^4.3.4",
+    "concurrently": "^7.0.0",
     "express": "^4.17.2",
     "mocha": "^9.1.3",
     "mockgoose": "^8.0.4",
