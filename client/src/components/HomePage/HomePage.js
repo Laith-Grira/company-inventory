@@ -9,6 +9,9 @@ const HomePage = () => {
     // Grouping the API data insude of an array of objects.
     let [itemsArray, setItemsArray] = useState([]);
 
+    // Input in the search bar by the user
+    const [searchItemName, setSearchItemName] = useState("");
+
     // React hook to fetch the data
     useEffect(() => {
         axios.get('/items')
@@ -36,7 +39,12 @@ const HomePage = () => {
                 <label><b>Create a new Item: </b></label>
                 <Link to="/create" className="btn btn-info" style={{ 'marginLeft': '20px'}}>NEW</Link>
             </div>
-            <input type="text" className="form-control mb-2" placeholder='Search...'/>
+            <input
+                type="text"
+                className="form-control mb-2"
+                placeholder='Search...'
+                onChange={event => setSearchItemName(event.target.value)}
+                />
             <table className="table table-hover" >
                 <thead className="thead-dark table-dark">
                     <tr>
