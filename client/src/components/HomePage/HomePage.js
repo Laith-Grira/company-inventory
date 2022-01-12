@@ -29,12 +29,14 @@ const HomePage = () => {
         <div className='main-home'>
             <h1 className='mb-5'>Welcome to the Shopify Inventory</h1>
             <div className="create-item mb-5">
-                <p>Welcome to the Shopify tech inventory. The table bellow contains all the equipments names, price, and 
-                    count (how much available in the inventory). You can check all equipments, edit them or delete them.
-                    You can also use the "New" button to create a new item.</p>
+                <p>Welcome to the Shopify tech inventory. The table bellow contains all the equipments' name, price, and 
+                    count (how much available in the inventory). You are also able to use the search bar to filter the items
+                    by name. You can check all equipments, edit them or delete them. You can also use the "New" button to 
+                    create a new item.</p>
                 <label><b>Create a new Item: </b></label>
                 <Link to="/create" className="btn btn-info" style={{ 'marginLeft': '20px'}}>NEW</Link>
             </div>
+            <input type="text" className="form-control mb-2" placeholder='Search...'/>
             <table className="table table-hover" >
                 <thead className="thead-dark table-dark">
                     <tr>
