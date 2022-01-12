@@ -57,7 +57,12 @@ const HomePage = () => {
                 </thead>
                 <tbody>
                     {
-                        itemsArray.map((data, key) => (
+                        itemsArray
+                            .filter(val => {
+                                if (searchItemName == "") return val;
+                                else if (val.name.toLowerCase().includes(searchItemName.toLowerCase())) return val;
+                            })
+                            .map((data, key) => (
                             <tr key={key}>
                                 <td >{data.name}</td>
                                 <td>{data.price}</td>
