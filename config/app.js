@@ -1,3 +1,10 @@
+/**
+ * @description This application.js file is spinning up this express application which 
+ * will make handeling requests easier and more readable.
+ * 
+ * @author Laith Grira
+ */
+
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -25,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 // Adding the paths to the route files
-const itemRoutes = require('./api/routes/items');
+const itemRoutes = require('../api/routes/items');
 
 // Routes which should handle requests
 app.use('/items', itemRoutes);
