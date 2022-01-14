@@ -4,7 +4,7 @@
   "description": "shopify summer 2022 backend challange",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f config/.env.development nodemon server.js",
+    "start": "env-cmd -f config/.env.development nodemon app.js",
     "test": "env-cmd -f config/.env.test mocha --recursive --exit --timeout 10000",
     "client": "(cd client) && (npm start)",
     "app": "concurrently \"npm start\" \"npm run client\""

@@ -1,13 +1,12 @@
 const expect = require('chai').expect;
 const request = require ('supertest');
-const server = require('../server');
+const load = require('./utils/loadMockApp');
 const connection = require('../database/db');
-
 
 describe('Starting tests for /items endpoint', () => {
 
     before((done) => {
-        connection.open()
+        connection.openMockDB()
           .then(done())
           .catch((err) => done(err));
       })
@@ -18,14 +17,13 @@ describe('Starting tests for /items endpoint', () => {
           .catch((err) => done(err));
     })
 
-    /******************************************************
-     ***************** GET requests ***********************
-     ******************************************************
+    /**
+     * @description GET requests
      */
     describe('Test GET for /items endpoint', () => {
     
         it('Getting an empty array for empty items', (done) => {
-            request(server)
+            request(load())
                 .get('/items')
                 .then((res) => {
                     const body = res.body.length;
@@ -36,11 +34,11 @@ describe('Starting tests for /items endpoint', () => {
         });
     
         it('Get a created item', (done) => {
-            request(server)
+            request(load())
                 .post('/items')
                 .send({ name: 'HDMI cable', price: 25, count: 10 })
                 .then((res) => {
-                    request(server)
+                    request(load())
                         .get('/items')
                         .then((res) => {
                             const body = res.body.length;
@@ -54,12 +52,12 @@ describe('Starting tests for /items endpoint', () => {
         });
 
         it('Get an item by ID', (done) => {
-            request(server)
+            request(load())
                 .post('/items')
                 .send({ name: 'Keyboard', price: 49.99, count: 50 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
-                    request(server)
+                    request(load())
                         .get('/items/'+id)
                         .then((res) => {
                             const name = res.body.name;
@@ -71,7 +69,7 @@ describe('Starting tests for /items endpoint', () => {
         });
 
         it('Handeling invalid item ID', (done) => {
-            request(server)
+            request(load())
                 .get('/items/'+'2ada6beds6dr')
                 .then((res) => {
                     const msg = res.body.message;
@@ -82,14 +80,13 @@ describe('Starting tests for /items endpoint', () => {
         });
     });
 
-    /******************************************************
-     ***************** POST requests **********************
-     ******************************************************
+    /**
+     * @description POST requests
      */
      describe('Test POST for /items endpoint', () => {
 
         it('Creating an item successfully', (done) => {
-            request(server)
+            request(load())
                 .post('/items')
                 .send({ name: 'Mouse', price: 20.99, count: 27 })
                 .then((res) => {
@@ -107,26 +104,25 @@ describe('Starting tests for /items endpoint', () => {
         });
     });
 
-    /******************************************************
-     ***************** PATCH requests **********************
-     ******************************************************
+    /**
+     * @description PATCH requests
      */
      describe('Test PATCH for /items endpoint', () => {
 
         it('Changing name of an item', (done) => {
-            request(server)
+            request(load())
                 .post('/items')
                 .send({ name: 'LAN cable', price: 7.20, count: 22 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
-                    request(server)
+                    request(load())
                         .get('/items')
                         .then((res) => {
-                            request(server)
+                            request(load())
                                 .patch('/items/'+id)
                                 .send([ { "propName": "name", "value": "WLAN cable" } ])
                                 .then((res) => {
-                                    request(server)
+                                    request(load())
                                         .get('/items/'+id)
                                         .then((res) => {
                                             const newName = res.body.name;
@@ -140,24 +136,23 @@ describe('Starting tests for /items endpoint', () => {
         });
     });
 
-    /******************************************************
-     ***************** DELETE requests ********************
-     ******************************************************
+    /**
+     * @description DELETE requests
      */
      describe('Test DELETE for /items endpoint', () => {
 
         it('Delete an item by ID', (done) => {
-            request(server)
+            request(load())
                 .post('/items')
                 .send({ name: 'Printer', price: 304.55, count: 37 })
                 .then((res) => {
                     const id = res.body.createdItem._id;
-                    request(server)
+                    request(load())
                         .delete('/items/'+id)
                         .then((res) => {
                             const msg = res.body.message;
                             expect(msg).to.equal('Item '+id+' is successfully deleted');
-                            request(server)
+                            request(load())
                                 .get('/items/'+id)
                                 .then((res) => {
                                     const msg_2 = res.body.message;
