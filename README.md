@@ -31,5 +31,7 @@ To set up the project in your locl machine:
 
 &nbsp;
 ## Test
-This project contains some unit tests for /items endpoint, for each of the GET/POST/PATCH/DELETE requests. <br/>
-To run the tests, under the /be-summer-2022 folder, run the command `npm run test`
+This project contains some integration tests for /items endpoint, for each of the GET/POST/PATCH/DELETE requests. <br/>
+To run the tests, under the /be-summer-2022 folder, run the command `npm test`.
+![image](https://user-images.githubusercontent.com/59850587/149631834-e8112bc1-6bbc-4ec7-8e55-b86b7f9c55b2.png)
+
