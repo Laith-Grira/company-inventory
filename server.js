@@ -50,7 +50,7 @@ const load = async () => {
     return app;
 }
 
-const startApp = async (App = { load }) => {
+const startServer = async (App = { load }) => {
     const port = process.env.PORT || 5000;
     const app = await App.load();
     const server = http.createServer(app);
@@ -60,7 +60,7 @@ const startApp = async (App = { load }) => {
 
 }
     
-startApp().catch((err) => {
+startServer().catch((err) => {
     console.error({ message: err.message, stack: err.stack })
     process.exit(1)
 });
