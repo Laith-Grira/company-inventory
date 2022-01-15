@@ -1,33 +1,66 @@
-/**
- * @description This is the entry point of our project. 
- * This file is used to set up all the code to spin up the nodejs server.
- * 
- * @author Laith Grira
- */
-
 const http = require('http');
-const database = require('./database/db');
-const port = process.env.PORT || 5000;
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const DB = require('./database/db');
 
 
-// Connect to the database, skip this step while testing because we will create a mock database
-// connection inside of the test file
-if (process.env.NODE_ENV != 'test') {
-        database.open()
-                .then(() => console.log(`***** MongoDB is connected *****`))
-                .catch(() => console.log('Unable to open database connection...'));
+const load = async () => {
+
+    const app = express();
+
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
+    app.use(morgan('dev'));
+
+    await DB.open()
+            .then(() => console.info(`MongoDB is connected`))
+            .catch(() => console.error(`Unable to open database connection...`));
+
+    // Handeling CORS
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
+        if (req.method === 'OPTIONS') {
+            res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+            return res.status(200).json({});
+        }
+        next();
+    });
+
+    // Coonecting to the items route
+    const itemRoutes = require('./api/routes/items');
+    app.use('/items', itemRoutes);
+
+    app.use((req, res, next) => {
+        const error = new Error('Not found');
+        error.status = 404;
+        next(error);
+    });
+
+    app.use((error, req, res, next) => {
+        res.status(error.status || 500);
+        res.json({
+            error: {
+                message: error.message
+            }
+        });
+    });
+
+    return app;
 }
 
-// This will allow us to send requests to the application middleware, so we can receive a response
-const app = require('./config/app');
+const startServer = async (App = { load }) => {
+    const port = process.env.PORT || 5000;
+    const app = await App.load();
+    const server = http.createServer(app);
 
-// Create the server
-const server = http.createServer(app);
+    server.listen(port, () => console.info(`Server is connected to port ${port}`))
+          .on( "error", () => console.error(`Server failed to start on port ${port}`));
 
-// Start the port and listen to through the specified file
-server
-    .listen(port, () => console.log(`***** Server is connected to port ${port} *****`))
-    .on( "error", () => console.log(`Server failed to start on port ${port}`));
-
-
-module.exports = server;
+}
+    
+startServer().catch((err) => {
+    console.error({ message: err.message, stack: err.stack })
+    process.exit(1)
+});
