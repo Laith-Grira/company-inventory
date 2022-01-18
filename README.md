@@ -2,7 +2,7 @@
 
 &nbsp;
 ## Overview
-Welcome to my attempt in the Shopify Back End challenge. <br/>
+Welcome to my attempt in the Shopify Summer 2022 challenge. <br/>
 In this project, I have created a Web application for the Shopify Inventory for tech equipments. <br/>
 Those equipments are stored as **Item**. Each Item have a name, a price, and a count (number stored in the inventory). <br/>
 When the user launches the application, a home page appears, containing some description and a table of all items stored in the inventory. <br/>
